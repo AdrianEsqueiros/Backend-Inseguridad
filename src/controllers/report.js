@@ -21,4 +21,15 @@ const getGeneralReport = async (req, res) => {
     },
   )
 }
-module.exports = { getGraphicReport, getGeneralReport }
+const getDetailReport = async (req, res) => {
+  connection.query(
+    'CALL `inseguridad`.`paginate_results`(?, ?, ?);',
+    [req.body.npage, req.body.perpage, req.body.yearId],
+    function (err, results, fields) {
+      res.json(results[0])
+      console.log(results) // results contains rows returned by server
+      // console.log(fields) // fields contains extra meta data about results, if available
+    },
+  )
+}
+module.exports = { getGraphicReport, getGeneralReport, getDetailReport }
