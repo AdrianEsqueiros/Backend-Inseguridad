@@ -13,7 +13,7 @@ const getGraphicReport = async (req, res) => {
 }
 const getGeneralReport = async (req, res) => {
   connection.query(
-    'select count(r.id)as total, r.year_id as year, r.district_id as district, round(AVG(r.rate),2)  as avg_rate, concat(round(( AVG(r.rate)  / 10 * 100 ),2), "%") AS porcentaje from reports r	 group by r.year_id, r.district_id;',
+    'select r.id as report_id, count(r.id)as total, r.year_id as year, r.district_id as district, round(AVG(r.rate),2)  as avg_rate, concat(round(( AVG(r.rate)  / 10 * 100 ),2), "%") AS porcentaje from reports r	 group by r.year_id, r.district_id;',
     function (err, results, fields) {
       res.json(results)
       console.log(results) // results contains rows returned by server
