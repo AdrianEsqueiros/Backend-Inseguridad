@@ -15,13 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       })
       Category.hasOne(models.Report, {
         foreignKey: 'category_id',
+
         as: 'category',
       })
     }
   }
   Category.init(
     {
-      name: DataTypes.STRING,
+      category_name: DataTypes.STRING,
     },
     {
       sequelize,

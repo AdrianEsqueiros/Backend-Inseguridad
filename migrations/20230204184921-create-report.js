@@ -48,19 +48,10 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      district_id: {
+      district_year_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Districts',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      year_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Years',
+          model: 'district_years',
           key: 'id',
         },
         onUpdate: 'CASCADE',

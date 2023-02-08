@@ -27,14 +27,8 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
       })
 
-      District.hasMany(models.Report, {
-        foreignKey: 'district_id',
-        as: 'reports',
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      })
       District.belongsToMany(models.Year, {
-        through: models.DistrictYear,
+        through: models.district_year,
         foreignKey: 'district_id',
         as: 'year',
       })

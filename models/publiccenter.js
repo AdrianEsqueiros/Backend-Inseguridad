@@ -9,15 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      PublicCenter.belongsTo(models.District, {
-        foreignKey: 'district_id',
-        as: 'district',
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      })
-      PublicCenter.belongsTo(models.Year, {
-        foreignKey: 'year_id',
-        as: 'year',
+      PublicCenter.belongsTo(models.district_year, {
+        foreignKey: 'district_year_id',
+        as: 'district_year',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
@@ -25,9 +19,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   PublicCenter.init(
     {
-      name: DataTypes.STRING,
-      district_id: DataTypes.INTEGER,
-      year_id: DataTypes.INTEGER,
+      public_center_name: DataTypes.STRING,
+      public_center: DataTypes.ENUM(
+        'Centros Educativos',
+        'Hospitales',
+        'Clínicas',
+        'Comisarías',
+        'Parques',
+      ),
+      district_year_id: DataTypes.INTEGER,
     },
     {
       sequelize,

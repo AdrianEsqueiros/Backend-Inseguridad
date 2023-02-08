@@ -23,24 +23,16 @@ module.exports = {
           'Parques',
         ),
       },
-      district_id: {
+      district_year_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Districts',
+          model: 'district_years',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      year_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Years',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

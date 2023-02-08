@@ -9,15 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Population.belongsTo(models.District, {
-        foreignKey: 'district_id',
-        as: 'district',
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      })
-      Population.belongsTo(models.Year, {
-        foreignKey: 'year_id',
-        as: 'year',
+      Population.belongsTo(models.district_year, {
+        foreignKey: 'district_year_id',
+        as: 'district_year',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
@@ -29,8 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       birth_rate: DataTypes.INTEGER,
       death_rate: DataTypes.INTEGER,
       population: DataTypes.INTEGER,
-      district_id: DataTypes.INTEGER,
-      year_id: DataTypes.INTEGER,
+      district_year_id: DataTypes.INTEGER,
     },
     {
       sequelize,

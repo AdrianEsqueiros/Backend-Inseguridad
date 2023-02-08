@@ -2,37 +2,26 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Populations', {
+    await queryInterface.createTable('district_years', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      surface_area: {
-        allowNull: false,
-        type: Sequelize.DECIMAL(18, 2),
-      },
-      birth_rate: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      death_rate: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      population: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      district_year_id: {
+      district_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'district_years',
+          model: 'Districts',
           key: 'id',
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+      },
+      year_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Years',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -45,6 +34,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Populations')
+    await queryInterface.dropTable('district_years')
   },
 }

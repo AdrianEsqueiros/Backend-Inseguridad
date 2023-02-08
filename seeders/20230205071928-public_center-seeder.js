@@ -5,15 +5,14 @@ const faker = require('faker')
 module.exports = {
   async up(queryInterface, Sequelize) {
     const publicCenters = []
-    const totalDistricts = 195
-    const totalYears = 26
-    for (let i = 1; i <= totalDistricts; i++) {
+    const totalPublicCenters = 20
+    const totalYears = 1014
+    for (let i = 1; i <= totalPublicCenters; i++) {
       for (let j = 1; j <= totalYears; j++) {
         publicCenters.push({
           public_center_name: faker.company.companyName(),
           public_center: Math.floor(Math.random() * 5) + 1,
-          district_id: Math.floor(Math.random() * 39) + 1,
-          year_id: j,
+          district_year_id: j,
           createdAt: new Date(),
         })
       }

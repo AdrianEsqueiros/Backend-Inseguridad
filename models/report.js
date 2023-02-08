@@ -9,11 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Report.belongsToMany(models.Location, {
-        through: models.ReportLocation,
-        as: 'locations',
-        foreignKey: 'report_id',
-      })
+
       Report.belongsTo(models.Category, {
         foreignKey: 'category_id',
         as: 'category',
@@ -26,21 +22,17 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
-      Report.belongsTo(models.District, {
-        foreignKey: 'district_id',
-        as: 'district',
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      })
+
       Report.belongsTo(models.Location, {
         foreignKey: 'location_id',
         as: 'location',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
-      Report.belongsTo(models.Year, {
-        foreignKey: 'year_id',
-        as: 'year',
+
+      Report.belongsTo(models.district_year, {
+        foreignKey: 'district_year_id',
+        as: 'district_years',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
@@ -61,9 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       category_id: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER,
-      district_id: DataTypes.INTEGER,
       location_id: DataTypes.INTEGER,
-      year_id: DataTypes.INTEGER,
+      district_year_id: DataTypes.INTEGER,
     },
     {
       sequelize,

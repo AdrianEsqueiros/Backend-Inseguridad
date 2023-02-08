@@ -40,6 +40,85 @@ DELIMITER ;
 ;
 
 ```
+```sh
+USE `inseguridad`;
+DROP procedure IF EXISTS `inseguridad`.`get_reports`;
+;
+
+DELIMITER $$
+USE `inseguridad`$$
+CREATE DEFINER=get_reports`root`@`localhost` PROCEDURE `get_reports`(IN npage INT, IN perpage INT, IN _year int, in _district varchar(50))
+begin
+
+  SET npage = (perpage * (npage - 1));
+ 
+     
+select
+	x.id,
+	d.district_name,
+	year(y.year_date) as year,
+	x.total as total_reports, 
+	(
+	select
+		count(p3.id)
+	from
+		publiccenters p3
+	where
+		p3.district_year_id = 3)as total_centers, 
+	x.avg_rate,
+	x.porcentaje,
+	p2.surface_area ,
+	p2.birth_rate ,
+	p2.death_rate ,
+	p2.population ,
+	lq.level_education , 
+	lq.quality_food ,
+	lq.socioeconomics,
+	u.`zone` ,
+	u.province ,
+	u.region ,
+	u.country
+from
+	(
+	select
+		dy.id as id, 
+		dy.district_id,
+		dy.year_id,
+		COUNT(r.id) as total,
+		ROUND(AVG(r.rate), 2) as avg_rate,
+		CONCAT(ROUND((COUNT(r.id)) / (avg(r.rate) * 100), 2), "%" ) as porcentaje
+	from
+		reports r
+	left join district_years dy on
+		dy.id = r.district_year_id
+	group by
+		dy.id) x
+join populations p2 on
+	p2.district_year_id = x.id
+join life_qualities lq on
+	lq.district_year_id = x.id
+join districts d on
+	d.id = x.district_id
+join years y on
+	y.id = x.year_id
+join ubications u on
+	u.id = d.ubication_id
+where
+	(_year is null
+		or year(y.year_date) = _year)
+	and (_district is null
+		or d.district_name = _district)
+group by
+	x.id
+limit perpage OFFSET npage ;
+
+	
+end$$
+
+DELIMITER ;
+;
+
+```
 ## Sequilize cli para las migraciones y seeders
 ```sh
 npm i sequelize-cli
