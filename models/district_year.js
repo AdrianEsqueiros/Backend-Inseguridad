@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'district_year_id',
         as: 'report',
       })
+      district_year.belongsTo(models.District, {
+        foreignKey: 'district_id',
+        as: 'district',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      })
     }
   }
   district_year.init(

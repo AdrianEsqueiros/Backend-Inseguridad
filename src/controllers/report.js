@@ -81,15 +81,16 @@ const getDetailReport = async (req, res) => {
 }
 
 const getReport = (req, res) => {
-  const { page, size, _id } = req.query
-  var condition = _id ? { user_id: { [Op.eq]: _id } } : null
-
-  const { limit, offset } = getPagination(page, size)
+  // var search_value = req.query.search
+  let { start, length } = req.query
+  // var condition = search_value ? { user_id: { [Op.eq]: search_value } } : null
+  length = parseInt(length)
+  start = parseInt(start)
+  // const { limit, offset } = getPagination(start, length)
 
   models.Report.findAndCountAll({
-    where: condition,
-    limit,
-    offset,
+    // where: condition,
+    limit: [start, length],
     include: [
       {
         model: models.Category,
@@ -106,10 +107,15 @@ const getReport = (req, res) => {
         as: 'location',
         attributes: ['longitude', 'latitude'],
       },
+      {
+        model: models.District,
+        as: 'district',
+        attributes: ['district_name'],
+      },
     ],
   })
     .then((data) => {
-      const response = getPagingData(data, page, limit)
+      const response = getPagingData(data, req)
       res.send(response)
     })
     .catch((err) => {
@@ -119,19 +125,42 @@ const getReport = (req, res) => {
       })
     })
 }
-const getPagination = (page, size) => {
-  const limit = size ? +size : 1
-  const offset = page ? page * limit : 0
 
-  return { limit, offset }
-}
-
-const getPagingData = (data, page, limit) => {
+const getPagingData = (data, req) => {
   const { count: totalItems, rows: reports } = data
-  const currentPage = page ? +page : 0
-  const totalPages = Math.ceil(totalItems / limit)
-
-  return { totalItems, reports, totalPages, currentPage }
+  const resultsData = reports.map(
+    ({
+      id,
+      photos,
+      comments,
+      rate,
+      district,
+      category,
+      location,
+      user,
+      createdAt,
+    }) => {
+      const date = new Date(createdAt)
+      const year = date.getFullYear()
+      return {
+        id,
+        user: user.first_name + ' ' + user.last_name,
+        district: district.district_name,
+        year,
+        category: category.category_name,
+        rate,
+        comments,
+        photos,
+        location: location.longitude + ' ' + location.latitude,
+      }
+    },
+  )
+  return {
+    draw: req.query.draw,
+    recordsTotal: totalItems,
+    recordsFiltered: totalItems,
+    data: resultsData,
+  }
 }
 const getPagingReport = (data, page, limit) => {
   const totalItems = 1014
@@ -140,6 +169,12 @@ const getPagingReport = (data, page, limit) => {
   const totalPages = Math.ceil(totalItems / limit)
 
   return { totalItems, reports, totalPages, currentPage }
+}
+const getPagination = (page, size) => {
+  const limit = size ? +size : 1
+  const offset = page ? page * limit : 0
+
+  return { limit, offset }
 }
 module.exports = {
   getGraphicReport,

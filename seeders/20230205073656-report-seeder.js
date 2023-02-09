@@ -16,6 +16,7 @@ module.exports = {
           rate: Math.floor(Math.random() * 10) + 1,
           category_id: Math.floor(Math.random() * 2) + 1,
           user_id: Math.floor(Math.random() * 400) + 1,
+          district_id: Math.floor(Math.random() * 39) + 1,
           district_year_id: Math.floor(Math.random() * 1014) + 1,
           location_id: Math.floor(Math.random() * 5000) + 1,
           createdAt: `${Math.floor(Math.random() * (2023 - 1998 + 1)) + 1998}/${

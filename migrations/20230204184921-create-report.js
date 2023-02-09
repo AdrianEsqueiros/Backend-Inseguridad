@@ -21,6 +21,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
+      district_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Districts',
+          key: 'id',
+        },
+      },
       category_id: {
         type: Sequelize.INTEGER,
         references: {

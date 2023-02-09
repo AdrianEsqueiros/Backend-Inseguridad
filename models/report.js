@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
+      Report.belongsTo(models.District, {
+        foreignKey: 'district_id',
+        as: 'district',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      })
       Report.belongsTo(models.User, {
         foreignKey: 'user_id',
         as: 'user',
@@ -32,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
 
       Report.belongsTo(models.district_year, {
         foreignKey: 'district_year_id',
-        as: 'district_years',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       })
@@ -42,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       photos: DataTypes.STRING,
       comments: DataTypes.TEXT,
+
       rate: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -51,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
           max: 10,
         },
       },
+      district_id: DataTypes.INTEGER,
       category_id: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER,
       location_id: DataTypes.INTEGER,

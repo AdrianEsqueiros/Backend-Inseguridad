@@ -1,7 +1,7 @@
 const faker = require('faker')
 const fs = require('fs')
 
-const numRecords = 30
+const numRecords = 3000000
 const fileName = 'locations.csv'
 
 const writeStream = fs.createWriteStream(fileName)

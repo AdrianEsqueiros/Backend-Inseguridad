@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'district_id',
         as: 'public_centers',
       })
+      District.hasMany(models.Report, {
+        foreignKey: 'district_id',
+        as: 'report',
+      })
       District.hasOne(models.LifeQuality, {
         foreignKey: 'district_id',
         as: 'life_quality',
@@ -42,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   District.init(
     {
-      name: DataTypes.STRING,
+      district_name: DataTypes.STRING,
       ubication_id: DataTypes.INTEGER,
     },
     {
